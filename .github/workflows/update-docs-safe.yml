@@ -34,8 +34,6 @@ jobs:
           GH_REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          # echo "$GH_TOKEN" | gh auth login --with-token
-          gh auth status
           gh pr diff "$PR_NUMBER" --repo "$GH_REPO" > pr.diff
           {
             echo "PR_DIFF<<EOF"
@@ -84,6 +82,9 @@ jobs:
           - read the raw PR diff (unified) from the environment variable $PR_DIFF and derive incremental ranges since the last docs update.
           - Do not attempt to create or edit PRs directly. Use the compare link format above.
           - Keep changes minimal and consistent with repo style. If no doc updates are necessary, make no changes and post no comment.
+
+          # Output debugging:
+          - print any commands you plan to run.
 
           # Deliverables when updates occur:
           - Pushed commits to the persistent docs branch for this PR head.
