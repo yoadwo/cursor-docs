@@ -34,7 +34,8 @@ jobs:
           GH_REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
-          echo "$GH_TOKEN" | gh auth login --with-token
+          # echo "$GH_TOKEN" | gh auth login --with-token
+          gh auth status
           gh pr diff "$PR_NUMBER" --repo "$GH_REPO" > pr.diff
           {
             echo "PR_DIFF<<EOF"
