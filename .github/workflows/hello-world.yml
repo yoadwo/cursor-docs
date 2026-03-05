@@ -29,7 +29,6 @@ jobs:
 
       - name: Update docs
         env:
-          MODEL: gpt-5.2
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
