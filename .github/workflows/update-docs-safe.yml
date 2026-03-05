@@ -30,13 +30,12 @@ jobs:
 
       - name: Update docs
         env:
-          MODEL: gpt-5.2
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH_PREFIX: docs
         run: |
           agent -p "IMPORTANT: Do NOT create branches, commit, push, or post PR comments. 
-          Only modify files in the working directory. A later workflow step handles publishing."
+          Only modify files in the working directory. A later workflow step handles publishing." --trust --model "$CURSOR_MODEL"
 
       - name: Publish docs branch (deterministic)
         run: |
