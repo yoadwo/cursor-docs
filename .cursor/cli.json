@@ -3,6 +3,8 @@
       "allow": [
         "Read(**/*.md)",
         "Write(docs/**/*)",
+        "Write(README.md)",
+        "Write(.cursor/skills/math.md)",
         "Shell(grep)",
         "Shell(find)"
       ],
