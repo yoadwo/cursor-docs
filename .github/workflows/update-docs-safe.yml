@@ -68,6 +68,9 @@ jobs:
             <<PR_DIFF_START
             $PR_DIFF
             PR_DIFF_END
+
+          # Output debugging:
+          - ALWAYS print any commands you plan to run. i MUST be able to follow the commands and reproduce the results.
           
           # Goal:
           - Implement docs update flow driven by incremental changes to the original PR.
@@ -82,9 +85,6 @@ jobs:
           - read the raw PR diff (unified) from the environment variable $PR_DIFF and derive incremental ranges since the last docs update.
           - Do not attempt to create or edit PRs directly. Use the compare link format above.
           - Keep changes minimal and consistent with repo style. If no doc updates are necessary, make no changes and post no comment.
-
-          # Output debugging:
-          - print any commands you plan to run.
 
           # Deliverables when updates occur:
           - Pushed commits to the persistent docs branch for this PR head.
