@@ -1,4 +1,4 @@
-name: Update Docs
+name: Hello World
 
 on:
   pull_request:
