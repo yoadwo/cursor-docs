@@ -28,6 +28,20 @@ jobs:
           git config user.name "Cursor Agent"
           git config user.email "cursoragent@cursor.com"
 
+      - name: Compute PR diff
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: |
+          echo "$GH_TOKEN" | gh auth login --with-token
+          gh pr diff "$PR_NUMBER" --repo "$GH_REPO" > pr.diff
+          {
+            echo "PR_DIFF<<EOF"
+            cat pr.diff
+            echo "EOF"
+          } >> "$GITHUB_ENV"
+
       - name: Update docs
         env:
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
@@ -36,6 +50,7 @@ jobs:
           MODEL: ${{ vars.CURSOR_MODEL }}
           GH_REPO: ${{ github.repository }}
           PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_DIFF: ${{ env.PR_DIFF }}
         run: |
           agent --trust --model "$MODEL" --output-format=text \
           -p "IMPORTANT: Do NOT create branches, commit, push, or post PR comments. 
@@ -50,6 +65,10 @@ jobs:
           - Base Ref: ${{ github.base_ref }}
           - Head Ref: ${{ github.head_ref }}
           - Docs Branch Prefix: ${{ env.BRANCH_PREFIX }}
+          - Raw PR diff (unified): 
+            <<PR_DIFF_START
+            $PR_DIFF
+            PR_DIFF_END
           
           # Goal:
           - Implement docs update flow driven by incremental changes to the original PR.
@@ -61,7 +80,7 @@ jobs:
           4) You do NOT have permission to create PRs. Instead, post or update a single natural-language PR comment (1-2 sentences) that briefly explains the docs updates and includes an inline compare link to quick-create a PR
 
           # Inputs and conventions:
-          - Use `gh pr diff` with option $PR_NUMBER and flag --repo $GH_REPO (i.e. `gh pr diff 1 --repo yoadwo/cursor-docs`) and git history to detect changes and derive incremental ranges since the last docs update.
+          - read the raw PR diff (unified) from the environment variable $PR_DIFF and derive incremental ranges since the last docs update.
           - Do not attempt to create or edit PRs directly. Use the compare link format above.
           - Keep changes minimal and consistent with repo style. If no doc updates are necessary, make no changes and post no comment.
 
