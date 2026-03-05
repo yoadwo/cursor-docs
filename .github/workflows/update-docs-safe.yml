@@ -61,7 +61,7 @@ jobs:
           4) You do NOT have permission to create PRs. Instead, post or update a single natural-language PR comment (1-2 sentences) that briefly explains the docs updates and includes an inline compare link to quick-create a PR
 
           # Inputs and conventions:
-          - Use `gh pr diff` with option $PR_NUMBER and flag --repo $GH_REPO (i.e. `git pr diff 1 --repo yoadwo/cursor-docs`) and git history to detect changes and derive incremental ranges since the last docs update.
+          - Use `gh pr diff` with option $PR_NUMBER and flag --repo $GH_REPO (i.e. `gh pr diff 1 --repo yoadwo/cursor-docs`) and git history to detect changes and derive incremental ranges since the last docs update.
           - Do not attempt to create or edit PRs directly. Use the compare link format above.
           - Keep changes minimal and consistent with repo style. If no doc updates are necessary, make no changes and post no comment.
 
