@@ -31,6 +31,5 @@ jobs:
         env:
           CURSOR_API_KEY: ${{ secrets.CURSOR_API_KEY }}
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          MODEL: ${{ vars.CURSOR_MODEL }}
         run: |
-          agent --trust -p "say hi! also, what does this repo do?" --output-format text
+          agent --trust -p "say hi! also, what does this repo do?" --output-format text --model Auto
