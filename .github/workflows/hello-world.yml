@@ -33,4 +33,4 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           MODEL: ${{ vars.CURSOR_MODEL }}
         run: |
-          agent --trust -p "say hi! also, what does this repo do?" --output-format text --model "$CURSOR_MODEL"
+          agent --trust -p "say hi! also, what does this repo do?" --output-format text --model "$MODEL"
