@@ -34,6 +34,8 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH_PREFIX: docs
           MODEL: ${{ vars.CURSOR_MODEL }}
+          GH_REPO: ${{ github.repository }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
         run: |
           agent --trust --model "$MODEL" --output-format=text \
           -p "IMPORTANT: Do NOT create branches, commit, push, or post PR comments. 
@@ -59,7 +61,7 @@ jobs:
           4) You do NOT have permission to create PRs. Instead, post or update a single natural-language PR comment (1-2 sentences) that briefly explains the docs updates and includes an inline compare link to quick-create a PR
 
           # Inputs and conventions:
-          - Use `gh pr diff` and git history to detect changes and derive incremental ranges since the last docs update.
+          - Use `gh pr diff \"$PR_NUMBER\" --repo \"$GH_REPO\"\` and git history to detect changes and derive incremental ranges since the last docs update.
           - Do not attempt to create or edit PRs directly. Use the compare link format above.
           - Keep changes minimal and consistent with repo style. If no doc updates are necessary, make no changes and post no comment.
 
@@ -74,7 +76,10 @@ jobs:
           git add -A
           git commit -m "docs: update for PR"
           git push origin "docs/${{ github.head_ref }}"
+
       - name: Post PR comment (deterministic)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           # Deterministic PR commenting handled by CI
           gh pr comment ${{ github.event.pull_request.number }} --body "Docs updated"
